@@ -7,12 +7,20 @@
 
   <style>
     :root{
-      /* ===== EDIT THESE FOR YOUR BRAND ===== */
-      --bg: #0b0b0c;          /* onyx background */
-      --card: #121214;        /* deep charcoal card */
-      --text: #f6f6f6;        /* ivory text */
-      --muted: #b9b9b9;
-      --accent: #d8c39a;      /* warm gold accent */
+      /* ===== BRAND / THEME =====
+         You said cream + the form was too dark.
+         I cannot confirm your exact cream hex because you haven't provided it.
+         Default cream palette used here:
+           --cream:   #F5F0E6
+           --cream-2: #FBF8F1
+         Replace these if your brand cream differs.
+      */
+      --onyx: #0b0b0c;
+      --cream: #F5F0E6;
+      --cream-2: #FBF8F1;
+      --text-dark: #111111;
+      --text-mid: #444444;
+      --accent: #d8c39a;  /* warm gold accent */
       --radius: 14px;
       --maxw: 760px;
     }
@@ -20,8 +28,8 @@
     body{
       margin:0; padding:24px;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      background: radial-gradient(1200px 800px at 10% -10%, #1a1a1d, var(--bg));
-      color: var(--text);
+      background: var(--cream);
+      color: var(--text-dark);
       display:flex; justify-content:center;
     }
 
@@ -30,25 +38,31 @@
     header{
       display:flex; align-items:center; gap:14px;
       margin-bottom:16px;
+      padding: 12px 14px;
+      background: var(--cream-2);
+      border: 1px solid #00000010;
+      border-radius: var(--radius);
     }
     header img{
-      width:48px; height:48px; object-fit:contain; border-radius:8px;
-      background:#00000022; padding:6px;
+      width:72px; height:72px; object-fit:contain;
+      border-radius:8px;
+      background: transparent;
+      padding:0;
     }
     h1{
       font-size:20px; margin:0;
       letter-spacing:0.2px;
     }
     .subtitle{
-      color:var(--muted); font-size:14px; margin-top:4px;
+      color:var(--text-mid); font-size:14px; margin-top:4px;
     }
 
     .card{
-      background: var(--card);
-      border: 1px solid #ffffff14;
+      background: var(--cream-2);
+      border: 1px solid #00000012;
       border-radius: var(--radius);
       padding: 18px;
-      box-shadow: 0 8px 26px #00000066;
+      box-shadow: 0 6px 18px #00000010;
     }
 
     .q{ margin: 14px 0; }
@@ -64,26 +78,27 @@
       padding:12px;
       font-size:16px;
       border-radius:10px;
-      border:1px solid #ffffff22;
-      background:#0e0e10;
-      color:var(--text);
+      border:1px solid #00000022;
+      background:#ffffff;
+      color:var(--text-dark);
       outline:none;
       box-sizing:border-box;
     }
     select:focus, input:focus{
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px #d8c39a33;
+      box-shadow: 0 0 0 3px #d8c39a44;
     }
 
     .hidden{ display:none; }
 
     .note{
-      font-size:13px; color:var(--muted); margin-top:6px;
+      font-size:13px; color:var(--text-mid); margin-top:6px;
     }
 
     .endmsg{
       padding:12px; border-radius:10px;
-      background:#ffffff08; border:1px dashed #ffffff33;
+      background:#ffffff;
+      border:1px dashed #00000033;
       font-size:14px;
       line-height:1.4;
     }
@@ -100,7 +115,7 @@
     button[disabled]{ opacity:0.6; cursor:not-allowed; }
 
     .status{
-      display:none; margin-top:10px; font-size:14px; color:var(--muted);
+      display:none; margin-top:10px; font-size:14px; color:var(--text-mid);
     }
     .status.show{ display:block; }
   </style>
@@ -109,7 +124,7 @@
 <body>
   <div class="wrap">
     <header>
-      <!-- OPTIONAL: add your logo URL, or delete this img line -->
+      <!-- IMPORTANT: replace YOUR_LOGO_URL with your real logo URL (PNG/SVG). -->
       <img src="YOUR_LOGO_URL" alt="Logo" />
       <div>
         <h1>Tenant Pre-Screen Form</h1>
@@ -118,7 +133,12 @@
     </header>
 
     <div class="card">
-      https://formspree.io/f/mdkjvjvp
+      <!-- Formspree endpoint correctly placed here -->
+      <form id="prescreenForm"
+            action="https://formspree.io/f/mdkjvjvp"
+            method="POST"
+            novalidate>
+
         <!-- Formspree metadata -->
         <input type="hidden" name="_subject" value="New Tenant Pre-Screen Submission" />
 
@@ -335,4 +355,3 @@
   </script>
 </body>
 </html>
-
