@@ -154,7 +154,7 @@
 <body>
   <div class="wrap">
     <header>
-      <!-- Logo must be in repo root.
+      <!-- Logo: file must be in repo root.
            Use BergasonLogo.jpg if you renamed to remove the space. -->
       <img id="logoImg" src="BergasonLogo.jpg" alt="Bergason Property Services logo" />
       <div class="logo-fallback" id="logoFallback">Logo not found</div>
@@ -228,7 +228,7 @@
           </select>
         </div>
 
-        <!-- Same family question (only if adults >= 3) -->
+        <!-- NEW: same family question (only appears if adults >= 3) -->
         <div class="q hidden" id="familyWrap">
           <label for="sameFamily">Are all applicants from the same family?</label>
           <select id="sameFamily" name="Are all applicants from the same family?">
@@ -236,10 +236,9 @@
             <option>Yes</option>
             <option>No</option>
           </select>
-          <div class="note">If you select “No”, you will be asked to contact our office.</div>
         </div>
 
-        <!-- HMO warning (only if adults >= 3 AND sameFamily = No) -->
+        <!-- Call office text (only if adults >= 3 AND sameFamily = No) -->
         <div class="q hidden" id="hmoWarning">
           <div class="endmsg">
             Please call our office as this amount of occupants could make this a House of Multiple Occupation, which it is not licenced for.
@@ -259,7 +258,7 @@
           </select>
         </div>
 
-        <!-- REST OF FORM (hidden/disabled if HMO warning triggered) -->
+        <!-- Everything after here can be blocked if HMO warning triggers -->
         <div id="restOfForm">
 
           <!-- Q1 Notice required -->
@@ -409,7 +408,6 @@
 
     function setRestEnabled(enabled){
       restOfForm.classList.toggle('hidden', !enabled);
-      // disable/enable submit too
       submitBtn.disabled = !enabled;
     }
 
@@ -417,17 +415,21 @@
       const n = parseInt(adultsCount.value, 10);
 
       if (!isNaN(n) && n >= 3) {
+        // Ask family question first
         familyWrap.classList.remove('hidden');
         sameFamily.required = true;
 
         if (sameFamily.value === 'No') {
+          // Not same family => show call office text and stop form
           hmoWarning.classList.remove('hidden');
-          setRestEnabled(false);   // stop them continuing
+          setRestEnabled(false);
         } else {
+          // Same family or not chosen yet => allow continuation
           hmoWarning.classList.add('hidden');
           setRestEnabled(true);
         }
       } else {
+        // Fewer than 3 tenants => no family question, no warning
         familyWrap.classList.add('hidden');
         hmoWarning.classList.add('hidden');
         sameFamily.required = false;
@@ -437,7 +439,6 @@
     }
 
     adultsCount.addEventListener('change', updateAdultsLogic);
-
     sameFamily.addEventListener('change', updateAdultsLogic);
 
     // Notice branching
