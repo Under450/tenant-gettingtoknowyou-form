@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tenant Pre-Screen Form</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; margin: 24px; max-width: 720px; }
+    h1 { font-size: 20px; margin-bottom: 12px; }
+    .q { margin: 14px 0; }
+    label { font-weight: 600; display:block; margin-bottom:6px; }
+    select, input[type="email"], input[type="text"], input[type="date"] {
+      width:100%; padding:10px; font-size:16px; box-sizing:border-box;
+    }
+    .hidden { display:none; }
+    .note { font-size: 14px; color:#555; margin-top:6px; }
+    button { padding:12px 16px; font-size:16px; cursor:pointer; }
+    .endmsg { padding:12px; background:#f7f7f7; border:1px solid #ddd; }
+  </style>
+</head>
+<body>
+  <h1>Tenant Pre-Screen Form</h1>
+
+  <form action="YOUR_FORMSPREE_ENDPOINT" method="POST">
+    <!-- Q0 Email -->
+    <div class="q">
+      <label for="email">Your email address:</label>
+      <input id="email" name="Your email address" type="email" required />
+    </div>
+
+    <!-- Q1 Notice required -->
+    <div class="q">
+      <label for="noticeRequired">Do you have to give notice in your current property?</label>
+      <select id="noticeRequired" name="Do you have to give notice in your current property?" required>
+        <option value="" selected disabled>Select…</option>
+        <option>Yes</option>
+        <option>No</option>
+      </select>
+    </div>
+
+    <!-- Q2 Notice length (conditional) -->
+    <div class="q hidden" id="noticeLengthWrap">
+      <label for="noticeLength">If so how long.</label>
+      <select id="noticeLength" name="If so how long.">
+        <option value="" selected disabled>Select…</option>
+        <option>1 month</option>
+        <option>2 months</option>
+        <option>More than 2 months</option>
+      </select>
+    </div>
+
+    <!-- Q3 Work -->
+    <div class="q">
+      <label for="workStatus">Do you and or your partner work?</label>
+      <select id="workStatus" name="Do you and or your partner work?" required>
+        <option value="" selected disabled>Select…</option>
+        <option>Yes full time</option>
+        <option>Yes part time</option>
+        <option>No</option>
+      </select>
+    </div>
+
+    <!-- Q4 Guarantor -->
+    <div class="q">
+      <label for="guarantor">If required can you provide a guarantor?</label>
+      <select id="guarantor" name="If required can you provide a guarantor?" required>
+        <option value="" selected disabled>Select…</option>
+        <option>Yes</option>
+        <option>No</option>
+      </select>
+    </div>
+
+    <!-- Q4 Income 30x -->
+    <div class="q">
+      <label for="income30x">Does your household income cover 30 x the monthly rent?</label>
+      <select id="income30x" name="Does your household income cover 30 x the monthly rent?" required>
+        <option value="" selected disabled>Select…</option>
+        <option>Yes</option>
+        <option>No</option>
+      </select>
+    </div>
+
+    <!-- Q5 Savings (conditional if income30x = No) -->
+    <div class="q hidden" id="savingsWrap">
+      <label for="savings">Do you have savings?</label>
+      <select id="savings" name="Do you have savings?">
+        <option value="" selected disabled>Select…</option>
+        <option>Yes</option>
+        <option>No</option>
+      </select>
+    </div>
+
+    <!-- Q6 Move-in date -->
+    <div class="q">
+      <label for="moveInDate">If successful, when would you like to move into the property?</label>
+      <input id="moveInDate" name="If successful, when would you like to move into the property?" type="date" required />
+    </div>
+
+    <!-- Q7 Right to rent -->
+    <div class="q">
+      <label for="rtr">Do you have the right to rent in the UK?</label>
+      <select id="rtr" name="Do you have the right to rent in the UK?" required>
+        <option value="" selected disabled>Select…</option>
+        <option>Yes</option>
+        <option>No</option>
+      </select>
+    </div>
+
+    <!-- Share code (conditional if rtr = Yes) -->
+    <div class="q hidden" id="shareCodeWrap">
+      <label for="shareCode">If yes drop down what is your share code.</label>
+      <input id="shareCode" name="If yes drop down what is your share code." type="text" />
+      <div class="note">Paste your UK Right to Rent share code here.</div>
+    </div>
+
+    <!-- Cannot proceed message (conditional if rtr = No) -->
+    <div class="q hidden" id="cannotProceed">
+      <div class="endmsg">
+        I am afraid we cannot progress your application any further as this is a legal requirement.
+      </div>
+    </div>
+
+    <div class="q">
+      <button type="submit" id="submitBtn">Submit</button>
+    </div>
+  </form>
+
+  <script>
+    const noticeRequired = document.getElementById('noticeRequired');
+    const noticeLengthWrap = document.getElementById('noticeLengthWrap');
+    const noticeLength = document.getElementById('noticeLength');
+
+    const income30x = document.getElementById('income30x');
+    const savingsWrap = document.getElementById('savingsWrap');
+    const savings = document.getElementById('savings');
+
+    const rtr = document.getElementById('rtr');
+    const shareCodeWrap = document.getElementById('shareCodeWrap');
+    const shareCode = document.getElementById('shareCode');
+    const cannotProceed = document.getElementById('cannotProceed');
+    const submitBtn = document.getElementById('submitBtn');
+
+    noticeRequired.addEventListener('change', () => {
+      if (noticeRequired.value === 'Yes') {
+        noticeLengthWrap.classList.remove('hidden');
+        noticeLength.required = true;
+      } else {
+        noticeLengthWrap.classList.add('hidden');
+        noticeLength.required = false;
+        noticeLength.value = '';
+      }
+    });
+
+    income30x.addEventListener('change', () => {
+      if (income30x.value === 'No') {
+        savingsWrap.classList.remove('hidden');
+        savings.required = true;
+      } else {
+        savingsWrap.classList.add('hidden');
+        savings.required = false;
+        savings.value = '';
+      }
+    });
+
+    rtr.addEventListener('change', () => {
+      if (rtr.value === 'Yes') {
+        shareCodeWrap.classList.remove('hidden');
+        shareCode.required = true;
+        cannotProceed.classList.add('hidden');
+        submitBtn.disabled = false;
+      } else if (rtr.value === 'No') {
+        shareCodeWrap.classList.add('hidden');
+        shareCode.required = false;
+        shareCode.value = '';
+        cannotProceed.classList.remove('hidden');
+        // still let them submit so you capture the "No" response
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
