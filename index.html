@@ -43,6 +43,16 @@
       padding:0;
       display:block;
     }
+    .logo-fallback{
+      display:none;
+      width:88px; height:88px;
+      border:1px dashed #00000033;
+      border-radius:8px;
+      align-items:center; justify-content:center;
+      font-size:12px; color:var(--text-mid);
+      text-align:center; padding:6px; box-sizing:border-box;
+    }
+
     h1{
       font-size:20px; margin:0;
       letter-spacing:0.2px;
@@ -118,9 +128,14 @@
 <body>
   <div class="wrap">
     <header>
-      <!-- Logo path (make sure this file exists in your repo).
-           If you place the logo next to index.html, set src="Bergason Logo.jpg". -->
-      <img src="/mnt/data/Bergason Logo.jpg" alt="Bergason Property Services logo" />
+      <!-- IMPORTANT FOR LOGO:
+           1) Put your logo file in the SAME folder as this index.html in your GitHub repo.
+           2) Name it exactly: Bergason Logo.jpg
+           3) This src uses the URL-encoded filename (space => %20).
+      -->
+      <img id="logoImg" src="Bergason%20Logo.jpg" alt="Bergason Property Services logo" />
+      <div class="logo-fallback" id="logoFallback">Logo not found</div>
+
       <div>
         <h1>Getting to know you form</h1>
         <div class="subtitle">Please complete all questions. Takes ~2 minutes.</div>
@@ -251,6 +266,14 @@
   </div>
 
   <script>
+    // Logo fallback if file not found
+    const logoImg = document.getElementById('logoImg');
+    const logoFallback = document.getElementById('logoFallback');
+    logoImg.onerror = () => {
+      logoImg.style.display = "none";
+      logoFallback.style.display = "flex";
+    };
+
     const form = document.getElementById('prescreenForm');
 
     const noticeRequired = document.getElementById('noticeRequired');
