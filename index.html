@@ -122,19 +122,42 @@
       display:none; margin-top:10px; font-size:14px; color:var(--text-mid);
     }
     .status.show{ display:block; }
+
+    /* Disclaimer block */
+    .disclaimer{
+      background:#ffffff;
+      border:1px solid #00000018;
+      border-radius:12px;
+      padding:14px;
+      margin-bottom:14px;
+      font-size:14px;
+      line-height:1.45;
+    }
+    .disclaimer strong{ font-weight:800; }
+    .disclaimer ul{
+      margin:8px 0 0 18px;
+      padding:0;
+    }
+    .consent{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      margin-top:10px;
+    }
+    .consent input{
+      margin-top:3px;
+      width:18px; height:18px;
+    }
   </style>
 </head>
 
 <body>
   <div class="wrap">
     <header>
-      <!-- IMPORTANT FOR LOGO:
-           1) Put your logo file in the SAME folder as this index.html in your GitHub repo.
-           2) Name it exactly: Bergason Logo.jpg
-           3) This src uses the URL-encoded filename (space => %20).
-      -->
+      <!-- Logo: file must be in repo root.
+           If you renamed to remove the space, keep this as BergasonLogo.jpg.
+           If your file is still "Bergason Logo.jpg", change src to Bergason%20Logo.jpg -->
       <img id="logoImg" src="BergasonLogo.jpg" alt="Bergason Property Services logo" />
-
       <div class="logo-fallback" id="logoFallback">Logo not found</div>
 
       <div>
@@ -151,10 +174,46 @@
 
         <input type="hidden" name="_subject" value="New Getting to know you form submission" />
 
-        <!-- Q0 Email -->
+        <!-- DISCLAIMER + REQUIRED CONSENT -->
+        <div class="disclaimer">
+          <strong>Disclaimer:-</strong> this form is designed to be completely anonymous, it will not ask for any questions that would identify or discriminate against you for any reason at all. If you do not wish to fill out this form, please let a member of staff know. Including but not limited to:-
+          <ul>
+            <li>Disability (including physical or mental impairments)</li>
+            <li>Gender reassignment</li>
+            <li>Age</li>
+            <li>Marriage and civil partnership status</li>
+            <li>Pregnancy and maternity (including breastfeeding)</li>
+            <li>Race (including colour, nationality, ethnic or national origins)</li>
+            <li>Religion or belief (including a lack of belief)</li>
+            <li>Sex (whether a person is male or female)</li>
+            <li>Sexual orientation</li>
+          </ul>
+          Either directly or indirectly.
+          <div class="consent">
+            <input
+              id="disclaimerConsent"
+              name="Disclaimer consent"
+              type="checkbox"
+              required
+            />
+            <label for="disclaimerConsent" style="font-weight:600; margin:0;">
+              I have read and understood the disclaimer above and I am happy to submit this form.
+            </label>
+          </div>
+        </div>
+
+        <!-- Q0 Email (mandatory) -->
         <div class="q">
           <label for="email">Your email address:</label>
-          <input id="email" name="Your email address:" type="email" required />
+          <input
+            id="email"
+            name="Your email address:"
+            type="email"
+            required
+            autocomplete="email"
+            inputmode="email"
+            placeholder="name@example.com"
+          />
         </div>
 
         <!-- Q1 Notice required -->
@@ -354,6 +413,8 @@
         if (res.ok) {
           statusMsg.classList.remove('show');
           form.querySelectorAll('.q').forEach(q => q.classList.add('hidden'));
+          // keep the disclaimer visible? (currently hidden with all .q blocks)
+          document.querySelector('.disclaimer').classList.remove('hidden');
           thankYouNote.classList.remove('hidden');
         } else {
           submitBtn.disabled = false;
@@ -367,4 +428,3 @@
   </script>
 </body>
 </html>
-
