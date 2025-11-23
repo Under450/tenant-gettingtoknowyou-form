@@ -177,7 +177,18 @@
         <!-- DISCLAIMER + REQUIRED CONSENT -->
         <div class="disclaimer">
           <strong>Disclaimer:-</strong> This form is designed to allow the Landlord to chose a suitable Tenant(s), without any form of discrimination. Filling out this form is completely anonymous, it will not ask for any questions that would identify or discriminate against you for any reason at all. If you do not wish to fill out this form, please let a member of staff know.
-        
+          <ul>
+            <li>Disability (including physical or mental impairments)</li>
+            <li>Gender reassignment</li>
+            <li>Age</li>
+            <li>Marriage and civil partnership status</li>
+            <li>Pregnancy and maternity (including breastfeeding)</li>
+            <li>Race (including colour, nationality, ethnic or national origins)</li>
+            <li>Religion or belief (including a lack of belief)</li>
+            <li>Sex (whether a person is male or female)</li>
+            <li>Sexual orientation</li>
+          </ul>
+          Either directly or indirectly.
           <div class="consent">
             <input
               id="disclaimerConsent"
@@ -205,7 +216,7 @@
           />
         </div>
 
-        <!-- NEW: number of tenants (adults) -->
+        <!-- Q: number of tenants (adults) -->
         <div class="q">
           <label for="adultsCount">How many tenants will be applying for this property?</label>
           <select id="adultsCount" name="How many tenants will be applying for this property?" required>
@@ -218,14 +229,24 @@
           </select>
         </div>
 
-        <!-- HMO warning (show if adults >= 3) -->
+        <!-- NEW: same family question (only if adults >= 3) -->
+        <div class="q hidden" id="familyWrap">
+          <label for="sameFamily">Are all applicants from the same family?</label>
+          <select id="sameFamily" name="Are all applicants from the same family?">
+            <option value="" selected disabled>Select…</option>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </div>
+
+        <!-- HMO warning (show if adults >= 3 AND sameFamily = No) -->
         <div class="q hidden" id="hmoWarning">
           <div class="endmsg">
             Please call our office as this amount of occupants could make this a House of Multiple Occupation, which it is not licenced for.
           </div>
         </div>
 
-        <!-- NEW: number of children -->
+        <!-- Q: number of children -->
         <div class="q">
           <label for="childrenCount">How many children under the age of 18 will be living at the property?</label>
           <select id="childrenCount" name="How many children under the age of 18 will be living at the property?" required>
@@ -359,6 +380,8 @@
     const form = document.getElementById('prescreenForm');
 
     const adultsCount = document.getElementById('adultsCount');
+    const familyWrap = document.getElementById('familyWrap');
+    const sameFamily = document.getElementById('sameFamily');
     const hmoWarning = document.getElementById('hmoWarning');
 
     const noticeRequired = document.getElementById('noticeRequired');
@@ -378,17 +401,44 @@
     const statusMsg = document.getElementById('statusMsg');
     const thankYouNote = document.getElementById('thankYouNote');
 
-    // HMO warning logic (show if adults >= 3)
-    adultsCount.addEventListener('change', () => {
+    function updateAdultsLogic(){
+      const n = parseInt(adultsCount.value, 10);
+
+      if (!isNaN(n) && n >= 3) {
+        // show family question and require it
+        familyWrap.classList.remove('hidden');
+        sameFamily.required = true;
+
+        // show warning only if they already said No
+        if (sameFamily.value === 'No') {
+          hmoWarning.classList.remove('hidden');
+        } else {
+          hmoWarning.classList.add('hidden');
+        }
+      } else {
+        // hide family + warning, clear value, remove required
+        familyWrap.classList.add('hidden');
+        hmoWarning.classList.add('hidden');
+        sameFamily.required = false;
+        sameFamily.value = '';
+      }
+    }
+
+    adultsCount.addEventListener('change', updateAdultsLogic);
+
+    sameFamily.addEventListener('change', () => {
+      // only relevant when adults >= 3
       const n = parseInt(adultsCount.value, 10);
       if (!isNaN(n) && n >= 3) {
-        hmoWarning.classList.remove('hidden');
-      } else {
-        hmoWarning.classList.add('hidden');
+        if (sameFamily.value === 'No') {
+          hmoWarning.classList.remove('hidden');
+        } else {
+          hmoWarning.classList.add('hidden');
+        }
       }
     });
 
-    // Branching logic
+    // Notice branching
     noticeRequired.addEventListener('change', () => {
       if (noticeRequired.value === 'Yes') {
         noticeLengthWrap.classList.remove('hidden');
@@ -400,6 +450,7 @@
       }
     });
 
+    // Income branching
     income30x.addEventListener('change', () => {
       if (income30x.value === 'No') {
         savingsWrap.classList.remove('hidden');
@@ -411,6 +462,7 @@
       }
     });
 
+    // Right to rent branching
     rtr.addEventListener('change', () => {
       if (rtr.value === 'Yes') {
         shareCodeWrap.classList.remove('hidden');
@@ -462,4 +514,3 @@
   </script>
 </body>
 </html>
-
