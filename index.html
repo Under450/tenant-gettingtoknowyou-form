@@ -176,7 +176,8 @@
 
         <!-- DISCLAIMER + REQUIRED CONSENT -->
         <div class="disclaimer">
-          <strong>Disclaimer:-</strong> This form is designed to allow the Landlord to chose a suitable Tenant(s), without any form of discrimination. Filling out this form is completely anonymous, it will not ask for any questions that would identify or discriminate against you for any reason at all. If you do not wish to fill out this form, please let a member of staff know.          <ul>
+          <strong>Disclaimer:-</strong> This form is designed to allow the Landlord to chose a suitable Tenant(s), without any form of discrimination. Filling out this form is completely anonymous, it will not ask for any questions that would identify or discriminate against you for any reason at all. If you do not wish to fill out this form, please let a member of staff know.
+          <ul>
             <li>Disability (including physical or mental impairments)</li>
             <li>Gender reassignment</li>
             <li>Age</li>
@@ -213,6 +214,39 @@
             inputmode="email"
             placeholder="name@example.com"
           />
+        </div>
+
+        <!-- NEW: number of tenants (adults) -->
+        <div class="q">
+          <label for="adultsCount">How many tenants will be applying for this property?</label>
+          <select id="adultsCount" name="How many tenants will be applying for this property?" required>
+            <option value="" selected disabled>Select…</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+
+        <!-- HMO warning (show if adults >= 3) -->
+        <div class="q hidden" id="hmoWarning">
+          <div class="endmsg">
+            Please call our office as this amount of occupants could make this a House of Multiple Occupation, which it is not licenced for.
+          </div>
+        </div>
+
+        <!-- NEW: number of children -->
+        <div class="q">
+          <label for="childrenCount">How many children under the age of 18 will be living at the property?</label>
+          <select id="childrenCount" name="How many children under the age of 18 will be living at the property?" required>
+            <option value="" selected disabled>Select…</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
         </div>
 
         <!-- Q1 Notice required -->
@@ -335,6 +369,9 @@
 
     const form = document.getElementById('prescreenForm');
 
+    const adultsCount = document.getElementById('adultsCount');
+    const hmoWarning = document.getElementById('hmoWarning');
+
     const noticeRequired = document.getElementById('noticeRequired');
     const noticeLengthWrap = document.getElementById('noticeLengthWrap');
     const noticeLength = document.getElementById('noticeLength');
@@ -351,6 +388,16 @@
     const submitBtn = document.getElementById('submitBtn');
     const statusMsg = document.getElementById('statusMsg');
     const thankYouNote = document.getElementById('thankYouNote');
+
+    // HMO warning logic (show if adults >= 3)
+    adultsCount.addEventListener('change', () => {
+      const n = parseInt(adultsCount.value, 10);
+      if (!isNaN(n) && n >= 3) {
+        hmoWarning.classList.remove('hidden');
+      } else {
+        hmoWarning.classList.add('hidden');
+      }
+    });
 
     // Branching logic
     noticeRequired.addEventListener('change', () => {
@@ -412,7 +459,6 @@
         if (res.ok) {
           statusMsg.classList.remove('show');
           form.querySelectorAll('.q').forEach(q => q.classList.add('hidden'));
-          // keep the disclaimer visible? (currently hidden with all .q blocks)
           document.querySelector('.disclaimer').classList.remove('hidden');
           thankYouNote.classList.remove('hidden');
         } else {
@@ -427,5 +473,3 @@
   </script>
 </body>
 </html>
-
-
