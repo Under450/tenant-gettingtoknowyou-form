@@ -134,10 +134,7 @@
       line-height:1.45;
     }
     .disclaimer strong{ font-weight:800; }
-    .disclaimer ul{
-      margin:8px 0 0 18px;
-      padding:0;
-    }
+
     .consent{
       display:flex;
       gap:10px;
@@ -173,21 +170,12 @@
 
         <input type="hidden" name="_subject" value="New Getting to know you form submission" />
 
-        <!-- DISCLAIMER + REQUIRED CONSENT -->
+        <!-- DISCLAIMER + REQUIRED CONSENT (LIST REMOVED AS REQUESTED) -->
         <div class="disclaimer">
-          <strong>Disclaimer:-</strong> This form is designed to allow the Landlord to chose a suitable Tenant(s), without any form of discrimination. Filling out this form is completely anonymous, it will not ask for any questions that would identify or discriminate against you for any reason at all. If you do not wish to fill out this form, please let a member of staff know.
-          <ul>
-            <li>Disability (including physical or mental impairments)</li>
-            <li>Gender reassignment</li>
-            <li>Age</li>
-            <li>Marriage and civil partnership status</li>
-            <li>Pregnancy and maternity (including breastfeeding)</li>
-            <li>Race (including colour, nationality, ethnic or national origins)</li>
-            <li>Religion or belief (including a lack of belief)</li>
-            <li>Sex (whether a person is male or female)</li>
-            <li>Sexual orientation</li>
-          </ul>
-          Either directly or indirectly.
+          <strong>Disclaimer:-</strong>
+          This form is designed to allow the Landlord to chose a suitable Tenant(s), without any form of discrimination.
+          Filling out this form is completely anonymous, it will not ask for any questions that would identify or discriminate against you for any reason at all.
+          If you do not wish to fill out this form, please let a member of staff know.
           <div class="consent">
             <input
               id="disclaimerConsent"
@@ -228,7 +216,7 @@
           </select>
         </div>
 
-        <!-- NEW: same family question (only appears if adults >= 3) -->
+        <!-- Same family question (only appears if adults >= 3) -->
         <div class="q hidden" id="familyWrap">
           <label for="sameFamily">Are all applicants from the same family?</label>
           <select id="sameFamily" name="Are all applicants from the same family?">
