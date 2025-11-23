@@ -4,128 +4,242 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Tenant Pre-Screen Form</title>
+
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; margin: 24px; max-width: 720px; }
-    h1 { font-size: 20px; margin-bottom: 12px; }
-    .q { margin: 14px 0; }
-    label { font-weight: 600; display:block; margin-bottom:6px; }
-    select, input[type="email"], input[type="text"], input[type="date"] {
-      width:100%; padding:10px; font-size:16px; box-sizing:border-box;
+    :root{
+      /* ===== EDIT THESE FOR YOUR BRAND ===== */
+      --bg: #0b0b0c;          /* onyx background */
+      --card: #121214;        /* deep charcoal card */
+      --text: #f6f6f6;        /* ivory text */
+      --muted: #b9b9b9;
+      --accent: #d8c39a;      /* warm gold accent */
+      --radius: 14px;
+      --maxw: 760px;
     }
-    .hidden { display:none; }
-    .note { font-size: 14px; color:#555; margin-top:6px; }
-    button { padding:12px 16px; font-size:16px; cursor:pointer; }
-    .endmsg { padding:12px; background:#f7f7f7; border:1px solid #ddd; }
+
+    body{
+      margin:0; padding:24px;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: radial-gradient(1200px 800px at 10% -10%, #1a1a1d, var(--bg));
+      color: var(--text);
+      display:flex; justify-content:center;
+    }
+
+    .wrap{ width:100%; max-width:var(--maxw); }
+
+    header{
+      display:flex; align-items:center; gap:14px;
+      margin-bottom:16px;
+    }
+    header img{
+      width:48px; height:48px; object-fit:contain; border-radius:8px;
+      background:#00000022; padding:6px;
+    }
+    h1{
+      font-size:20px; margin:0;
+      letter-spacing:0.2px;
+    }
+    .subtitle{
+      color:var(--muted); font-size:14px; margin-top:4px;
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid #ffffff14;
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: 0 8px 26px #00000066;
+    }
+
+    .q{ margin: 14px 0; }
+
+    label{
+      font-weight: 650;
+      display:block; margin-bottom:7px;
+      font-size:15px;
+    }
+
+    select, input[type="email"], input[type="text"], input[type="date"]{
+      width:100%;
+      padding:12px;
+      font-size:16px;
+      border-radius:10px;
+      border:1px solid #ffffff22;
+      background:#0e0e10;
+      color:var(--text);
+      outline:none;
+      box-sizing:border-box;
+    }
+    select:focus, input:focus{
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px #d8c39a33;
+    }
+
+    .hidden{ display:none; }
+
+    .note{
+      font-size:13px; color:var(--muted); margin-top:6px;
+    }
+
+    .endmsg{
+      padding:12px; border-radius:10px;
+      background:#ffffff08; border:1px dashed #ffffff33;
+      font-size:14px;
+      line-height:1.4;
+    }
+
+    .btnrow{ margin-top:6px; display:flex; gap:10px; }
+
+    button{
+      padding:12px 16px; font-size:16px; cursor:pointer;
+      border-radius:12px; border:0;
+      background: linear-gradient(180deg, var(--accent), #bfa676);
+      color:#111; font-weight:700;
+      width:100%;
+    }
+    button[disabled]{ opacity:0.6; cursor:not-allowed; }
+
+    .status{
+      display:none; margin-top:10px; font-size:14px; color:var(--muted);
+    }
+    .status.show{ display:block; }
   </style>
 </head>
+
 <body>
-  <h1>Tenant Pre-Screen Form</h1>
-
-  <form action="YOUR_FORMSPREE_ENDPOINT" method="POST">
-    <!-- Q0 Email -->
-    <div class="q">
-      <label for="email">Your email address:</label>
-      <input id="email" name="Your email address" type="email" required />
-    </div>
-
-    <!-- Q1 Notice required -->
-    <div class="q">
-      <label for="noticeRequired">Do you have to give notice in your current property?</label>
-      <select id="noticeRequired" name="Do you have to give notice in your current property?" required>
-        <option value="" selected disabled>Select…</option>
-        <option>Yes</option>
-        <option>No</option>
-      </select>
-    </div>
-
-    <!-- Q2 Notice length (conditional) -->
-    <div class="q hidden" id="noticeLengthWrap">
-      <label for="noticeLength">If so how long.</label>
-      <select id="noticeLength" name="If so how long.">
-        <option value="" selected disabled>Select…</option>
-        <option>1 month</option>
-        <option>2 months</option>
-        <option>More than 2 months</option>
-      </select>
-    </div>
-
-    <!-- Q3 Work -->
-    <div class="q">
-      <label for="workStatus">Do you and or your partner work?</label>
-      <select id="workStatus" name="Do you and or your partner work?" required>
-        <option value="" selected disabled>Select…</option>
-        <option>Yes full time</option>
-        <option>Yes part time</option>
-        <option>No</option>
-      </select>
-    </div>
-
-    <!-- Q4 Guarantor -->
-    <div class="q">
-      <label for="guarantor">If required can you provide a guarantor?</label>
-      <select id="guarantor" name="If required can you provide a guarantor?" required>
-        <option value="" selected disabled>Select…</option>
-        <option>Yes</option>
-        <option>No</option>
-      </select>
-    </div>
-
-    <!-- Q4 Income 30x -->
-    <div class="q">
-      <label for="income30x">Does your household income cover 30 x the monthly rent?</label>
-      <select id="income30x" name="Does your household income cover 30 x the monthly rent?" required>
-        <option value="" selected disabled>Select…</option>
-        <option>Yes</option>
-        <option>No</option>
-      </select>
-    </div>
-
-    <!-- Q5 Savings (conditional if income30x = No) -->
-    <div class="q hidden" id="savingsWrap">
-      <label for="savings">Do you have savings?</label>
-      <select id="savings" name="Do you have savings?">
-        <option value="" selected disabled>Select…</option>
-        <option>Yes</option>
-        <option>No</option>
-      </select>
-    </div>
-
-    <!-- Q6 Move-in date -->
-    <div class="q">
-      <label for="moveInDate">If successful, when would you like to move into the property?</label>
-      <input id="moveInDate" name="If successful, when would you like to move into the property?" type="date" required />
-    </div>
-
-    <!-- Q7 Right to rent -->
-    <div class="q">
-      <label for="rtr">Do you have the right to rent in the UK?</label>
-      <select id="rtr" name="Do you have the right to rent in the UK?" required>
-        <option value="" selected disabled>Select…</option>
-        <option>Yes</option>
-        <option>No</option>
-      </select>
-    </div>
-
-    <!-- Share code (conditional if rtr = Yes) -->
-    <div class="q hidden" id="shareCodeWrap">
-      <label for="shareCode">If yes drop down what is your share code.</label>
-      <input id="shareCode" name="If yes drop down what is your share code." type="text" />
-      <div class="note">Paste your UK Right to Rent share code here.</div>
-    </div>
-
-    <!-- Cannot proceed message (conditional if rtr = No) -->
-    <div class="q hidden" id="cannotProceed">
-      <div class="endmsg">
-        I am afraid we cannot progress your application any further as this is a legal requirement.
+  <div class="wrap">
+    <header>
+      <!-- OPTIONAL: add your logo URL, or delete this img line -->
+      <img src="YOUR_LOGO_URL" alt="Logo" />
+      <div>
+        <h1>Tenant Pre-Screen Form</h1>
+        <div class="subtitle">Please complete all questions. Takes ~2 minutes.</div>
       </div>
-    </div>
+    </header>
 
-    <div class="q">
-      <button type="submit" id="submitBtn">Submit</button>
+    <div class="card">
+      <form id="prescreenForm" action="YOUR_FORMSPREE_ENDPOINT" method="POST" novalidate>
+        <!-- Formspree metadata -->
+        <input type="hidden" name="_subject" value="New Tenant Pre-Screen Submission" />
+
+        <!-- Q0 Email -->
+        <div class="q">
+          <label for="email">Your email address:</label>
+          <input id="email" name="Your email address:" type="email" required />
+        </div>
+
+        <!-- Q1 Notice required -->
+        <div class="q">
+          <label for="noticeRequired">Do you have to give notice in your current property?</label>
+          <select id="noticeRequired" name="Do you have to give notice in your current property?" required>
+            <option value="" selected disabled>Select…</option>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </div>
+
+        <!-- Q2 Notice length (conditional) -->
+        <div class="q hidden" id="noticeLengthWrap">
+          <label for="noticeLength">If so how long.</label>
+          <select id="noticeLength" name="If so how long.">
+            <option value="" selected disabled>Select…</option>
+            <option>1 month</option>
+            <option>2 months</option>
+            <option>More than 2 months</option>
+          </select>
+        </div>
+
+        <!-- Q3 Work -->
+        <div class="q">
+          <label for="workStatus">Do you and or your partner work?</label>
+          <select id="workStatus" name="Do you and or your partner work?" required>
+            <option value="" selected disabled>Select…</option>
+            <option>Yes full time</option>
+            <option>Yes part time</option>
+            <option>No</option>
+          </select>
+        </div>
+
+        <!-- Q4 Guarantor -->
+        <div class="q">
+          <label for="guarantor">If required can you provide a guarantor?</label>
+          <select id="guarantor" name="If required can you provide a guarantor?" required>
+            <option value="" selected disabled>Select…</option>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </div>
+
+        <!-- Q4 Income 30x -->
+        <div class="q">
+          <label for="income30x">Does your household income cover 30 x the monthly rent?</label>
+          <select id="income30x" name="Does your household income cover 30 x the monthly rent?" required>
+            <option value="" selected disabled>Select…</option>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </div>
+
+        <!-- Q5 Savings (conditional if income30x = No) -->
+        <div class="q hidden" id="savingsWrap">
+          <label for="savings">Do you have savings?</label>
+          <select id="savings" name="Do you have savings?">
+            <option value="" selected disabled>Select…</option>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </div>
+
+        <!-- Q6 Move-in date -->
+        <div class="q">
+          <label for="moveInDate">If successful, when would you like to move into the property?</label>
+          <input id="moveInDate" name="If successful, when would you like to move into the property?" type="date" required />
+        </div>
+
+        <!-- Q7 Right to rent -->
+        <div class="q">
+          <label for="rtr">Do you have the right to rent in the UK?</label>
+          <select id="rtr" name="Do you have the right to rent in the UK?" required>
+            <option value="" selected disabled>Select…</option>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </div>
+
+        <!-- Share code (conditional if rtr = Yes) -->
+        <div class="q hidden" id="shareCodeWrap">
+          <label for="shareCode">If yes drop down what is your share code.</label>
+          <input id="shareCode" name="If yes drop down what is your share code." type="text" />
+          <div class="note">Paste your UK Right to Rent share code here.</div>
+        </div>
+
+        <!-- Cannot proceed message (conditional if rtr = No) -->
+        <div class="q hidden" id="cannotProceed">
+          <div class="endmsg">
+            I am afraid we cannot progress your application any further as this is a legal requirement.
+          </div>
+        </div>
+
+        <!-- Thank-you note (hidden until submit) -->
+        <div class="q hidden" id="thankYouNote">
+          <div class="endmsg">
+            Thank you — your pre-screen form has been submitted.<br>
+            We’ll review your answers and contact you if you’re shortlisted.
+          </div>
+        </div>
+
+        <div class="q btnrow">
+          <button type="submit" id="submitBtn">Submit</button>
+        </div>
+
+        <div class="status" id="statusMsg">Submitting…</div>
+      </form>
     </div>
-  </form>
+  </div>
 
   <script>
+    const form = document.getElementById('prescreenForm');
+
     const noticeRequired = document.getElementById('noticeRequired');
     const noticeLengthWrap = document.getElementById('noticeLengthWrap');
     const noticeLength = document.getElementById('noticeLength');
@@ -138,8 +252,12 @@
     const shareCodeWrap = document.getElementById('shareCodeWrap');
     const shareCode = document.getElementById('shareCode');
     const cannotProceed = document.getElementById('cannotProceed');
-    const submitBtn = document.getElementById('submitBtn');
 
+    const submitBtn = document.getElementById('submitBtn');
+    const statusMsg = document.getElementById('statusMsg');
+    const thankYouNote = document.getElementById('thankYouNote');
+
+    // Branching logic
     noticeRequired.addEventListener('change', () => {
       if (noticeRequired.value === 'Yes') {
         noticeLengthWrap.classList.remove('hidden');
@@ -167,14 +285,51 @@
         shareCodeWrap.classList.remove('hidden');
         shareCode.required = true;
         cannotProceed.classList.add('hidden');
-        submitBtn.disabled = false;
       } else if (rtr.value === 'No') {
         shareCodeWrap.classList.add('hidden');
         shareCode.required = false;
         shareCode.value = '';
         cannotProceed.classList.remove('hidden');
-        // still let them submit so you capture the "No" response
+      }
+    });
+
+    // Submit + inline thank-you
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      submitBtn.disabled = true;
+      statusMsg.textContent = "Submitting…";
+      statusMsg.classList.add('show');
+
+      try {
+        const formData = new FormData(form);
+        const res = await fetch(form.action, {
+          method: "POST",
+          body: formData,
+          headers: { "Accept": "application/json" }
+        });
+
+        if (res.ok) {
+          statusMsg.classList.remove('show');
+
+          // Hide all question blocks except thank-you note
+          form.querySelectorAll('.q').forEach(q => q.classList.add('hidden'));
+
+          // Show thank-you note
+          thankYouNote.classList.remove('hidden');
+
+        } else {
+          submitBtn.disabled = false;
+          statusMsg.textContent = "Submit failed. Please try again.";
+        }
+      } catch (err) {
         submitBtn.disabled = false;
+        statusMsg.textContent = "Submit failed. Please try again.";
       }
     });
   </script>
