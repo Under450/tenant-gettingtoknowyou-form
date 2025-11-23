@@ -154,9 +154,8 @@
 <body>
   <div class="wrap">
     <header>
-      <!-- Logo: file must be in repo root.
-           If you renamed to remove the space, keep this as BergasonLogo.jpg.
-           If your file is still "Bergason Logo.jpg", change src to Bergason%20Logo.jpg -->
+      <!-- Logo must be in repo root.
+           Use BergasonLogo.jpg if you renamed to remove the space. -->
       <img id="logoImg" src="BergasonLogo.jpg" alt="Bergason Property Services logo" />
       <div class="logo-fallback" id="logoFallback">Logo not found</div>
 
@@ -229,7 +228,7 @@
           </select>
         </div>
 
-        <!-- NEW: same family question (only if adults >= 3) -->
+        <!-- Same family question (only if adults >= 3) -->
         <div class="q hidden" id="familyWrap">
           <label for="sameFamily">Are all applicants from the same family?</label>
           <select id="sameFamily" name="Are all applicants from the same family?">
@@ -237,9 +236,10 @@
             <option>Yes</option>
             <option>No</option>
           </select>
+          <div class="note">If you select “No”, you will be asked to contact our office.</div>
         </div>
 
-        <!-- HMO warning (show if adults >= 3 AND sameFamily = No) -->
+        <!-- HMO warning (only if adults >= 3 AND sameFamily = No) -->
         <div class="q hidden" id="hmoWarning">
           <div class="endmsg">
             Please call our office as this amount of occupants could make this a House of Multiple Occupation, which it is not licenced for.
@@ -259,97 +259,102 @@
           </select>
         </div>
 
-        <!-- Q1 Notice required -->
-        <div class="q">
-          <label for="noticeRequired">Do you have to give notice in your current property?</label>
-          <select id="noticeRequired" name="Do you have to give notice in your current property?" required>
-            <option value="" selected disabled>Select…</option>
-            <option>Yes</option>
-            <option>No</option>
-          </select>
-        </div>
+        <!-- REST OF FORM (hidden/disabled if HMO warning triggered) -->
+        <div id="restOfForm">
 
-        <!-- Q2 Notice length (conditional) -->
-        <div class="q hidden" id="noticeLengthWrap">
-          <label for="noticeLength">If so how long.</label>
-          <select id="noticeLength" name="If so how long.">
-            <option value="" selected disabled>Select…</option>
-            <option>1 month</option>
-            <option>2 months</option>
-            <option>More than 2 months</option>
-          </select>
-        </div>
-
-        <!-- Q3 Work -->
-        <div class="q">
-          <label for="workStatus">Do you and or your partner work?</label>
-          <select id="workStatus" name="Do you and or your partner work?" required>
-            <option value="" selected disabled>Select…</option>
-            <option>Yes full time</option>
-            <option>Yes part time</option>
-            <option>No</option>
-          </select>
-        </div>
-
-        <!-- Q4 Guarantor -->
-        <div class="q">
-          <label for="guarantor">If required can you provide a guarantor?</label>
-          <select id="guarantor" name="If required can you provide a guarantor?" required>
-            <option value="" selected disabled>Select…</option>
-            <option>Yes</option>
-            <option>No</option>
-          </select>
-        </div>
-
-        <!-- Q4 Income 30x -->
-        <div class="q">
-          <label for="income30x">Does your household income cover 30 x the monthly rent?</label>
-          <select id="income30x" name="Does your household income cover 30 x the monthly rent?" required>
-            <option value="" selected disabled>Select…</option>
-            <option>Yes</option>
-            <option>No</option>
-          </select>
-        </div>
-
-        <!-- Q5 Savings (conditional if income30x = No) -->
-        <div class="q hidden" id="savingsWrap">
-          <label for="savings">Do you have savings?</label>
-          <select id="savings" name="Do you have savings?">
-            <option value="" selected disabled>Select…</option>
-            <option>Yes</option>
-            <option>No</option>
-          </select>
-        </div>
-
-        <!-- Q6 Move-in date -->
-        <div class="q">
-          <label for="moveInDate">If successful, when would you like to move into the property?</label>
-          <input id="moveInDate" name="If successful, when would you like to move into the property?" type="date" required />
-        </div>
-
-        <!-- Q7 Right to rent -->
-        <div class="q">
-          <label for="rtr">Do you have the right to rent in the UK?</label>
-          <select id="rtr" name="Do you have the right to rent in the UK?" required>
-            <option value="" selected disabled>Select…</option>
-            <option>Yes</option>
-            <option>No</option>
-          </select>
-        </div>
-
-        <!-- Share code (conditional if rtr = Yes) -->
-        <div class="q hidden" id="shareCodeWrap">
-          <label for="shareCode">If yes drop down what is your share code.</label>
-          <input id="shareCode" name="If yes drop down what is your share code." type="text" />
-          <div class="note">Paste your UK Right to Rent share code here.</div>
-        </div>
-
-        <!-- Cannot proceed message (conditional if rtr = No) -->
-        <div class="q hidden" id="cannotProceed">
-          <div class="endmsg">
-            I am afraid we cannot progress your application any further as this is a legal requirement.
+          <!-- Q1 Notice required -->
+          <div class="q">
+            <label for="noticeRequired">Do you have to give notice in your current property?</label>
+            <select id="noticeRequired" name="Do you have to give notice in your current property?" required>
+              <option value="" selected disabled>Select…</option>
+              <option>Yes</option>
+              <option>No</option>
+            </select>
           </div>
-        </div>
+
+          <!-- Q2 Notice length (conditional) -->
+          <div class="q hidden" id="noticeLengthWrap">
+            <label for="noticeLength">If so how long.</label>
+            <select id="noticeLength" name="If so how long.">
+              <option value="" selected disabled>Select…</option>
+              <option>1 month</option>
+              <option>2 months</option>
+              <option>More than 2 months</option>
+            </select>
+          </div>
+
+          <!-- Q3 Work -->
+          <div class="q">
+            <label for="workStatus">Do you and or your partner work?</label>
+            <select id="workStatus" name="Do you and or your partner work?" required>
+              <option value="" selected disabled>Select…</option>
+              <option>Yes full time</option>
+              <option>Yes part time</option>
+              <option>No</option>
+            </select>
+          </div>
+
+          <!-- Q4 Guarantor -->
+          <div class="q">
+            <label for="guarantor">If required can you provide a guarantor?</label>
+            <select id="guarantor" name="If required can you provide a guarantor?" required>
+              <option value="" selected disabled>Select…</option>
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+          </div>
+
+          <!-- Q4 Income 30x -->
+          <div class="q">
+            <label for="income30x">Does your household income cover 30 x the monthly rent?</label>
+            <select id="income30x" name="Does your household income cover 30 x the monthly rent?" required>
+              <option value="" selected disabled>Select…</option>
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+          </div>
+
+          <!-- Q5 Savings (conditional if income30x = No) -->
+          <div class="q hidden" id="savingsWrap">
+            <label for="savings">Do you have savings?</label>
+            <select id="savings" name="Do you have savings?">
+              <option value="" selected disabled>Select…</option>
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+          </div>
+
+          <!-- Q6 Move-in date -->
+          <div class="q">
+            <label for="moveInDate">If successful, when would you like to move into the property?</label>
+            <input id="moveInDate" name="If successful, when would you like to move into the property?" type="date" required />
+          </div>
+
+          <!-- Q7 Right to rent -->
+          <div class="q">
+            <label for="rtr">Do you have the right to rent in the UK?</label>
+            <select id="rtr" name="Do you have the right to rent in the UK?" required>
+              <option value="" selected disabled>Select…</option>
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+          </div>
+
+          <!-- Share code (conditional if rtr = Yes) -->
+          <div class="q hidden" id="shareCodeWrap">
+            <label for="shareCode">If yes drop down what is your share code.</label>
+            <input id="shareCode" name="If yes drop down what is your share code." type="text" />
+            <div class="note">Paste your UK Right to Rent share code here.</div>
+          </div>
+
+          <!-- Cannot proceed message (conditional if rtr = No) -->
+          <div class="q hidden" id="cannotProceed">
+            <div class="endmsg">
+              I am afraid we cannot progress your application any further as this is a legal requirement.
+            </div>
+          </div>
+
+        </div><!-- /restOfForm -->
 
         <!-- Thank-you note (hidden until submit) -->
         <div class="q hidden" id="thankYouNote">
@@ -383,6 +388,7 @@
     const familyWrap = document.getElementById('familyWrap');
     const sameFamily = document.getElementById('sameFamily');
     const hmoWarning = document.getElementById('hmoWarning');
+    const restOfForm = document.getElementById('restOfForm');
 
     const noticeRequired = document.getElementById('noticeRequired');
     const noticeLengthWrap = document.getElementById('noticeLengthWrap');
@@ -401,42 +407,38 @@
     const statusMsg = document.getElementById('statusMsg');
     const thankYouNote = document.getElementById('thankYouNote');
 
+    function setRestEnabled(enabled){
+      restOfForm.classList.toggle('hidden', !enabled);
+      // disable/enable submit too
+      submitBtn.disabled = !enabled;
+    }
+
     function updateAdultsLogic(){
       const n = parseInt(adultsCount.value, 10);
 
       if (!isNaN(n) && n >= 3) {
-        // show family question and require it
         familyWrap.classList.remove('hidden');
         sameFamily.required = true;
 
-        // show warning only if they already said No
         if (sameFamily.value === 'No') {
           hmoWarning.classList.remove('hidden');
+          setRestEnabled(false);   // stop them continuing
         } else {
           hmoWarning.classList.add('hidden');
+          setRestEnabled(true);
         }
       } else {
-        // hide family + warning, clear value, remove required
         familyWrap.classList.add('hidden');
         hmoWarning.classList.add('hidden');
         sameFamily.required = false;
         sameFamily.value = '';
+        setRestEnabled(true);
       }
     }
 
     adultsCount.addEventListener('change', updateAdultsLogic);
 
-    sameFamily.addEventListener('change', () => {
-      // only relevant when adults >= 3
-      const n = parseInt(adultsCount.value, 10);
-      if (!isNaN(n) && n >= 3) {
-        if (sameFamily.value === 'No') {
-          hmoWarning.classList.remove('hidden');
-        } else {
-          hmoWarning.classList.add('hidden');
-        }
-      }
-    });
+    sameFamily.addEventListener('change', updateAdultsLogic);
 
     // Notice branching
     noticeRequired.addEventListener('change', () => {
