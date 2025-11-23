@@ -3,24 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Tenant Pre-Screen Form</title>
+  <title>Getting to know you form</title>
 
   <style>
     :root{
-      /* ===== BRAND / THEME =====
-         You said cream + the form was too dark.
-         I cannot confirm your exact cream hex because you haven't provided it.
-         Default cream palette used here:
-           --cream:   #F5F0E6
-           --cream-2: #FBF8F1
-         Replace these if your brand cream differs.
-      */
+      /* ===== BRAND / THEME ===== */
       --onyx: #0b0b0c;
-      --cream: #F5F0E6;
-      --cream-2: #FBF8F1;
+      --cream: #F5F0E6;       /* brand cream */
+      --cream-2: #FBF8F1;     /* lighter cream for cards/inputs */
       --text-dark: #111111;
       --text-mid: #444444;
-      --accent: #d8c39a;  /* warm gold accent */
+      --accent: #d8c39a;      /* warm gold accent */
       --radius: 14px;
       --maxw: 760px;
     }
@@ -44,10 +37,11 @@
       border-radius: var(--radius);
     }
     header img{
-      width:72px; height:72px; object-fit:contain;
+      width:88px; height:88px; object-fit:contain;
       border-radius:8px;
       background: transparent;
       padding:0;
+      display:block;
     }
     h1{
       font-size:20px; margin:0;
@@ -124,23 +118,22 @@
 <body>
   <div class="wrap">
     <header>
-      <!-- IMPORTANT: replace YOUR_LOGO_URL with your real logo URL (PNG/SVG). -->
-      <img src="YOUR_LOGO_URL" alt="Logo" />
+      <!-- Logo path (make sure this file exists in your repo).
+           If you place the logo next to index.html, set src="Bergason Logo.jpg". -->
+      <img src="/mnt/data/Bergason Logo.jpg" alt="Bergason Property Services logo" />
       <div>
-        <h1>Tenant Pre-Screen Form</h1>
+        <h1>Getting to know you form</h1>
         <div class="subtitle">Please complete all questions. Takes ~2 minutes.</div>
       </div>
     </header>
 
     <div class="card">
-      <!-- Formspree endpoint correctly placed here -->
       <form id="prescreenForm"
             action="https://formspree.io/f/mdkjvjvp"
             method="POST"
             novalidate>
 
-        <!-- Formspree metadata -->
-        <input type="hidden" name="_subject" value="New Tenant Pre-Screen Submission" />
+        <input type="hidden" name="_subject" value="New Getting to know you form submission" />
 
         <!-- Q0 Email -->
         <div class="q">
@@ -243,7 +236,7 @@
         <!-- Thank-you note (hidden until submit) -->
         <div class="q hidden" id="thankYouNote">
           <div class="endmsg">
-            Thank you — your pre-screen form has been submitted.<br>
+            Thank you — your form has been submitted.<br>
             We’ll review your answers and contact you if you’re shortlisted.
           </div>
         </div>
@@ -336,13 +329,8 @@
 
         if (res.ok) {
           statusMsg.classList.remove('show');
-
-          // Hide all question blocks except thank-you note
           form.querySelectorAll('.q').forEach(q => q.classList.add('hidden'));
-
-          // Show thank-you note
           thankYouNote.classList.remove('hidden');
-
         } else {
           submitBtn.disabled = false;
           statusMsg.textContent = "Submit failed. Please try again.";
